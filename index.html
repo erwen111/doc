@@ -61,16 +61,14 @@
         // requestVertexNormals: true,
         // requestWaterMask: true 只能在小地形中显示
       }), // 地形数据
-      // geocoder:false,
+      geocoder:false,
       homeButton:false,
       sceneModePicker:false,
       // baseLayerPicker:false,
       navigationHelpButton:false,
-      // animation:false,
+      animation:false,
       timeline:false,
       fullscreenButton:false,
-      infoBox: false,
-      vrButton: false,
       // infoBox: false,
       // vrButton: false,
       
@@ -140,6 +138,8 @@
       });
     }
     //鼠标左键单击事件
+    handler.setInputAction(function (evt) {
+      annotations.removeAll();
       var pickedObject = Viewer.scene.pick(evt.position);
       var ray = Viewer.camera.getPickRay(evt.position);
       var cartesian = Viewer.scene.globe.pick(ray, Viewer.scene);
@@ -151,15 +151,15 @@
         annotate(cartesian, lng, lat, height);
       }
 
-    // }, Cesium.ScreenSpaceEventType.LEFT_CLICK
-    // );
-    // //使用右键单击，删除点和框
-    // handler.setInputAction(function () {
-    //   //删除点
-    //   // Viewer.entities.removeAll()
-    //   annotations.removeAll();
-    // }, Cesium.ScreenSpaceEventType.RIGHT_CLICK
-    // )
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK
+    );
+    //使用右键单击，删除点和框
+    handler.setInputAction(function () {
+      //删除点
+      // Viewer.entities.removeAll()
+      annotations.removeAll();
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK
+    )
     function change() {
       //获取等高距滑动条当前值
       var HS = Number(HeightSpa.value);
