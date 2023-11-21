@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>earth</title>
-  <script src="../../libs/Build/Cesium/Cesium.js"></script>
-  <script type="text/javascript" src="../../libs/Apps/Sandcastle/Sandcastle-header.js"></script>
-  <link rel="stylesheet" href="../../libs/Build/Cesium/Widgets/widgets.css">
+  <script src="./libs/Build/Cesium/Cesium.js"></script>
+  <script type="text/javascript" src="./libs/Apps/Sandcastle/Sandcastle-header.js"></script>
+  <link rel="stylesheet" href="./libs/Build/Cesium/Widgets/widgets.css">
 
   <style>
     html,
@@ -86,7 +86,7 @@
     //  Sandcastle.addDefaultToolbarButton("Default styling", function () {
     var tiletest = Viewer.dataSources.add(
       Cesium.GeoJsonDataSource.load(
-        "../../shp/geojson/xhqSHPCS2000_R_1.json", {
+        "./shp/geojson/xhqSHPCS2000_R_1.json", {
         // fill: Cesium.Color.TRANSPARENT,
         stroke: Cesium.Color.BLACK,
         fill: Cesium.Color.RED.withAlpha(0.2),
