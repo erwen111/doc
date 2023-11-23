@@ -84,14 +84,11 @@
     // console.log("Viewer",Viewer.terrainProvider);
 
     //  Sandcastle.addDefaultToolbarButton("Default styling", function () {
-    var tiletest = Viewer.dataSources.add(
+      var tiletest = Viewer.dataSources.add(
       Cesium.GeoJsonDataSource.load(
-        "./shp/geojson/xhqSHPCS2000_R_1.json", {
-        // fill: Cesium.Color.TRANSPARENT,
-        stroke: Cesium.Color.BLACK,
-        fill: Cesium.Color.RED.withAlpha(0.2),
-        // fill: Cesium.Color.RED,
-        // stroke: Cesium.Color.BLACK,
+        "../../shp/geojson/xhqLine.json", {
+        stroke: Cesium.Color.BLUE,
+        // fill: Cesium.Color.RED.withAlpha(0.2),
         strokeWidth: 3,
         clampToGround: true
 
@@ -99,6 +96,57 @@
       )
     );
     Viewer.zoomTo(tiletest);
+    ////高亮{
+    tiletest.then(function (dataSource) {
+      Viewer.dataSources.add(dataSource);
+      var entities = dataSource.entities.values;
+      var colorHash = {};
+
+      for (var o = 0; o < entities.length; o++) {
+        var r = entities[o];
+        r.nameID = o;   //给每条线添加一个编号，方便之后对线修改样式
+        r.polyline.width = 10;  //添加默认样式
+        (r.polyline.material = new Cesium.PolylineGlowMaterialProperty({
+          glowPower: .1, //一个数字属性，指定发光强度，占总线宽的百分比。
+          color: Cesium.Color.BLUE.withAlpha(.9)
+        }), 10)
+
+      }
+      var temp = new Array();
+      window.Hightlightline = function (nameid) {
+        var exists = temp.indexOf(nameid);
+        if (exists <= -1) {
+          Highlight(nameid, 50, 50);
+          temp.push(nameid);  // 添加线nameID到数组，
+        }
+        else  //已经是高亮状态了 再次点击修改为原始状态
+        {
+          Highlight(nameid, 10, 10);
+          temp.splice(exists, 1);  //删除对应的nameID
+        }
+      }
+      window.Highlight = function (nameid, width1, width2) {
+        for (var o = 0; o < entities.length; o++) {
+          var m = entities[o];
+          if (nameid == o) {
+            m.polyline.width = width1;
+            (m.polyline.material = new Cesium.PolylineGlowMaterialProperty({
+              glowPower: .1, //一个数字属性，指定发光强度，占总线宽的百分比。
+              color: Cesium.Color.BLUE.withAlpha(.9)
+            }), width2)
+          }
+        }
+      }
+    });
+    Viewer.flyTo(tiletest);
+    Viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+      var pickedFeature = Viewer.scene.pick(movement.position);
+      if (typeof (pickedFeature) != "undefined")   //鼠标是否点到线上
+      {
+        var name_id = pickedFeature.id.nameID;  //获取每条线的nameID
+        Hightlightline(name_id);
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     // 实例化屏幕空间事件对象ScreenSpaceEventHandler
     var handler = new Cesium.ScreenSpaceEventHandler(Viewer.canvas);
     var annotations = Viewer.scene.primitives.add(
