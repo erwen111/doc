@@ -78,7 +78,7 @@
       //加载线
       var tiletest = Viewer.dataSources.add(
           Cesium.GeoJsonDataSource.load(
-              "../../shp/geojson/xhqLine.json", {
+              "../doc/shp/geojson/xhqLine.json", {
               stroke: Cesium.Color.BLUE,
               // fill: Cesium.Color.RED.withAlpha(0.2),
               strokeWidth: 3,
@@ -210,7 +210,7 @@
                   name: res.name,
                   position: Cesium.Cartesian3.fromDegrees(res.position.x, res.position.y, res.position.z),
                   billboard: {
-                       image: '../doc/shp/geojson/位置2.png',
+                       image: '../../shp/geojson/位置2.png',
                       // pinBuilder.fromText(res.text, Cesium.Color.ROYALBLUE, 48).toDataURL(),
                       scale:0.5,
                       verticalOrigin: Cesium.VerticalOrigin.BOTTOM
@@ -344,5 +344,6 @@
       }
   </script>
 </body>
+
 
 </html>
