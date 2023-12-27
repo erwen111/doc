@@ -43,6 +43,27 @@
                 </div>
             </div>
         </div>
+        <div id="customPopup" class="popup" style="position: fixed;display:none;
+        top: 5px;
+        left: 5px;
+        bottom: 0px;
+        background-color: #ffffffd5;
+        padding: 0;
+        width: 25%;
+        border: 1px solid #ffffff;
+        box-shadow: 0 0 10px rgba(243, 235, 235, 0.682);
+        z-index: 9999;">
+            <div style="background-color: rgba(10, 186, 255, 0.821);">
+                <div style="font-size: 26px; padding: 30px 50px 30px 50px; color: #fff; font-weight: bold;">辽宁省阜新市细河区
+                </div>
+            </div>
+            <div style="padding: 10px;">
+                <img style="width: 318px;height: 240px;" src="../doc/shp/geojson/布局.png" />
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;细河区，地处阜新市中部，位于东经121°31′23″—121°42′03″，北纬41°56′23″—42°06′36″。东、北、西与阜新蒙古族自治县接壤，南与海州区、太平区为邻，全境呈丁字型。南北距离17.67公里，东西距离14.42公里，总面积126平方公里。
+                </p>
+            </div>
+            <button id="closeBtn" onclick="closePopup()" style="margin-left: 70%;">关闭</button>
+        </div>
     </div>
     <script>
         const Viewer = new Cesium.Viewer('cesiumContainer', {
@@ -145,6 +166,22 @@
         Viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
             var pickedFeature = Viewer.scene.pick(movement.position);
             if (typeof (pickedFeature) != "undefined")   //鼠标是否点到线上
+
+            // 显示弹窗
+            function showPopup() {
+                document.getElementById("customPopup").style.display = "block";
+                var closeBtn = document.getElementById('closeBtn');
+                closeBtn.addEventListener('click', closePopup);
+            }
+
+            // 隐藏弹窗
+            function closePopup() {
+                document.getElementById("customPopup").style.display = "none";
+            }
+
+            // 触发弹窗
+            showPopup();
+
             {
                 var name_id = pickedFeature?.id?.nameID;  //获取每条线的nameID
                 Hightlightline(name_id);
